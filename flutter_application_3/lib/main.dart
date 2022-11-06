@@ -36,6 +36,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    final Widget networkSvg = SvgPicture.network(
+        'https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/svg/random.svg',
+        width: 100);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -52,7 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       margin: const EdgeInsets.symmetric(horizontal: 5),
-                      child: SvgPicture.asset('assets/images/flutter_logo.svg'),
+                      child: i % 2 == 0
+                          ? SvgPicture.asset('assets/images/flutter_logo.svg')
+                          : networkSvg,
                     );
                   },
                 );
