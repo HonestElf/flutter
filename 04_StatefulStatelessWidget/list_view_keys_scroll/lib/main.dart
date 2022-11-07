@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,20 +16,20 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  const MyHomePage({Key key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<String> nav = ['Список 1', 'Список 2'];
+  List<String> nav = [];
   final List fakeData = List.generate(100, (index) => index.toString());
 
   Map<String, dynamic> data = {
@@ -58,20 +60,30 @@ class _MyHomePageState extends State<MyHomePage> {
   };
 
   @override
+  void initState() {
+    super.initState();
+
+    nav = data.keys.toList(growable: false);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: nav.length,
+      length: data.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Homework example'),
+          title: const Text('Homework example'),
+          bottom:
+              TabBar(tabs: nav.map((String item) => Tab(text: item)).toList()),
         ),
         body: TabBarView(
           children: nav.map((name) {
+            List<String> urlList = data[name];
             return ListView(
               key: PageStorageKey(name),
               children: <Widget>[
-                ...fakeData.map((e) {
-                  return Text(e);
+                ...urlList.map((photoUrl) {
+                  return Image.network(photoUrl, width: 100);
                 }).toList()
               ],
             );
