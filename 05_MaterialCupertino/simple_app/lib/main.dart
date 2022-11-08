@@ -55,14 +55,19 @@ class _MyHomePageState extends State<MyHomePage>
 
   TabController _tabController;
   int _currentTabIndex = 0;
+  bool _isButtonVisible = true;
 
   PersistentBottomSheetController _controller;
 
   void toggleBottomSheet() {
+    setState(() {
+      _isButtonVisible = !_isButtonVisible;
+    });
     if (_controller == null) {
       _controller =
           scaffoldKey.currentState.showBottomSheet((context) => Container(
-                height: 150,
+                color: Colors.blueGrey[100],
+                height: 110,
                 child: Center(
                     child: Column(
                   children: [
@@ -176,9 +181,14 @@ class _MyHomePageState extends State<MyHomePage>
           Text('Username')
         ]),
       )),
-      body: TabBarView(
-          controller: _tabController,
-          children: const [Text(''), Text(''), Text('')]),
+      body: GestureDetector(
+        onTap: () => {
+          if (_controller != null) {toggleBottomSheet()}
+        },
+        child: TabBarView(
+            controller: _tabController,
+            children: const [Text(''), Text(''), Text('')]),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) => {
           setState(() {
@@ -193,10 +203,12 @@ class _MyHomePageState extends State<MyHomePage>
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: toggleBottomSheet,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: Visibility(
+          visible: _isButtonVisible,
+          child: FloatingActionButton(
+            onPressed: toggleBottomSheet,
+            child: const Icon(Icons.add),
+          )),
     );
   }
 }
