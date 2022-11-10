@@ -23,24 +23,26 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                padding: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 15),
                 child: TextField(
                     focusNode: _focus,
                     decoration: InputDecoration(
                       suffixIcon: const Icon(
+                        color: Colors.purple,
                         Icons.search,
                       ),
                       labelStyle: const TextStyle(color: Colors.purple),
                       labelText: 'Search',
                       helperText: 'Поле для поиска заметок',
+                      hintText: 'Введите значение',
                       focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(20),
                           borderSide:
-                              const BorderSide(width: 3, color: Colors.purple)),
+                              const BorderSide(width: 2, color: Colors.purple)),
                       enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(20),
                           borderSide:
-                              const BorderSide(width: 3, color: Colors.purple)),
+                              const BorderSide(width: 2, color: Colors.purple)),
                     )),
               )
             ],
