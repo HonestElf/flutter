@@ -12,9 +12,9 @@ List<Widget> _getGeneratedData(int length) =>
     List<Widget>.generate(length, (index) {
       return Card(
         color: Colors.blue,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: const ListTile(
-          title: Text(''),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        child: ListTile(
+          title: Text(index.toString()),
         ),
       );
     }, growable: false);

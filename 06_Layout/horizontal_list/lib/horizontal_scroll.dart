@@ -17,67 +17,50 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('App Bar')),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          const TextField(
-            decoration: InputDecoration(labelText: 'Search'),
-          ),
-          Expanded(child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              double width = constraints.constrainWidth();
+    return SafeArea(child: Scaffold(body: LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        double width = constraints.constrainWidth();
 
-              print(width);
+        print(width);
 
-              return width > 500
-                  ? ListView(
-                      scrollDirection: Axis.vertical,
-                      children: <Widget>[
-                        ...generatedData
-                            .map((item) => Container(
-                                  width: 100,
-                                  child: item,
-                                ))
-                            .toList()
-                      ],
-                    )
-                  : GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3, childAspectRatio: 2),
-                      itemBuilder: (context, index) => generatedData[index],
-                      itemCount: generatedData.length,
-                    );
-            },
-          )
+        return ListView(
+          scrollDirection: width > 500 ? Axis.vertical : Axis.horizontal,
+          children: <Widget>[
+            ...generatedData
+                .map((item) => Container(
+                      width: 80,
+                      child: item,
+                    ))
+                .toList()
+          ],
+        );
+      },
+    )
+        // Column(
+        //   crossAxisAlignment: CrossAxisAlignment.stretch,
+        //   children: <Widget>[
+        //     Expanded(child: LayoutBuilder(
+        //       builder: (BuildContext context, BoxConstraints constraints) {
+        //         double width = constraints.constrainWidth();
 
-              //   Container(
-              //     child: ListView(
-              //       controller: _controller,
-              //       scrollDirection: Axis.horizontal,
-              //       children: <Widget>[
-              //         ...generatedData
-              //             .map((item) => Container(
-              //                   width: 100,
-              //                   child: item,
-              //                 ))
-              //             .toList()
-              //       ],
-              //     ),
-              //   ),
-              // )
-              // Expanded(
-              //     child: Container(
-              //         height: 200,
-              //         child: ListView(
-              //           controller: _controller,
-              //           scrollDirection: Axis.horizontal,
-              //           children: generatedData.map((item) => item).toList(),
-              //         )))
-              )
-        ],
-      ),
-    );
+        //         print(width);
+
+        //         return ListView(
+        //           scrollDirection: width > 500 ? Axis.vertical : Axis.horizontal,
+        //           children: <Widget>[
+        //             ...generatedData
+        //                 .map((item) => Container(
+        //                       height: width > 500 ? 20 : 50,
+        //                       width: 100,
+        //                       child: item,
+        //                     ))
+        //                 .toList()
+        //           ],
+        //         );
+        //       },
+        //     ))
+        //   ],
+        // ),
+        ));
   }
 }
