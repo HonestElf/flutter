@@ -4,9 +4,24 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:albums_route/artists_page.dart';
 
-class HomePage extends StatefulWidget {
-  static const routeName = '/';
+enum Pages { home, artists }
 
+List<Map<String, dynamic>> pagesList = [
+  {
+    'title': 'Home page',
+    'pageKey': Pages.home,
+    'icon': const Icon(Icons.home),
+    'pageBody': const HomePageBody()
+  },
+  {
+    'title': 'Artists page',
+    'pageKey': Pages.artists,
+    'icon': const Icon(Icons.music_note),
+    'pageBody': const ArtistsPageBody()
+  }
+];
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
@@ -14,22 +29,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Pages currentPage = Pages.home;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> currentPageData =
+        pagesList.firstWhere((page) => page['pageKey'] == currentPage);
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: const Text('Routes'),
+        title: Text(currentPageData['title']),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Routes',
-            ),
-          ],
-        ),
-      ),
+      body: currentPageData['pageBody'],
       drawer: Drawer(
         child: Column(
           children: <Widget>[
@@ -47,32 +60,50 @@ class _HomePageState extends State<HomePage> {
             )),
             Column(
               children: [
-                ListTile(
-                  textColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  tileColor: Colors.blue[500],
-                  title: const Text('Home'),
-                  leading: const Icon(Icons.home),
-                  trailing: const Icon(Icons.arrow_forward),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(HomePage.routeName);
-                  },
-                ),
-                ListTile(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  title: const Text('Artists'),
-                  leading: const Icon(Icons.music_note),
-                  trailing: const Icon(Icons.arrow_forward),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(ArtistsPage.routeName);
-                  },
-                ),
+                ...pagesList
+                    .map((page) => ListTile(
+                          title: Text(page['title']),
+                          selected: currentPage == page['pageKey'],
+                          selectedColor: Colors.white,
+                          selectedTileColor: Colors.blue[500],
+                          textColor: Colors.black,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12))),
+                          leading: page['icon'],
+                          trailing: const Icon(Icons.arrow_forward),
+                          onTap: () {
+                            setState(() {
+                              currentPage = page['pageKey'];
+                            });
+                            if (_scaffoldKey.currentState != null) {
+                              _scaffoldKey.currentState!.closeDrawer();
+                            }
+                          },
+                        ))
+                    .toList(),
               ],
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class HomePageBody extends StatelessWidget {
+  const HomePageBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const <Widget>[
+          Text(
+            'Routes',
+          ),
+        ],
       ),
     );
   }

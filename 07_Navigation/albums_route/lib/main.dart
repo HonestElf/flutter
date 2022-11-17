@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:albums_route/artists_page.dart';
 import 'package:albums_route/current_artist_page.dart';
 import 'package:albums_route/home_page.dart';
 import 'package:albums_route/not_found_page.dart';
@@ -32,16 +31,6 @@ class MyApp extends StatelessWidget {
       },
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
-          case HomePage.routeName:
-            return MaterialPageRoute(builder: (BuildContext context) {
-              return const HomePage();
-            });
-
-          case ArtistsPage.routeName:
-            return MaterialPageRoute(builder: (BuildContext context) {
-              return const ArtistsPage();
-            });
-
           case CurrentArtistPage.routeName:
             final args = settings.arguments as Map<String, dynamic>;
 
