@@ -1,10 +1,16 @@
+import 'package:albums_route/artists_page.dart';
+import 'package:albums_route/current_artist_page.dart';
+import 'package:albums_route/not_found_page.dart';
 import 'package:flutter/material.dart';
+import 'package:albums_route/home_page.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,34 +20,41 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
-    );
-  }
-}
+      home: const HomePage(),
+      initialRoute: '/',
+      onUnknownRoute: (RouteSettings settings) {
+        return MaterialPageRoute(builder: (BuildContext context) {
+          return const NotFoundPage();
+        });
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case HomePage.routeName:
+            return MaterialPageRoute(builder: (BuildContext context) {
+              return const HomePage();
+            });
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+          case ArtistsPage.routeName:
+            return MaterialPageRoute(builder: (BuildContext context) {
+              return const ArtistsPage();
+            });
 
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Routes'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Routes',
-            ),
-          ],
-        ),
-      ),
+          case CurrentArtistPage.routeName:
+            final args = settings.arguments as Map<String, dynamic>;
+
+            return MaterialPageRoute(builder: (BuildContext context) {
+              if (args.containsKey('link')) {
+                return CurrentArtistPage(link: args['link']);
+              }
+              return const CurrentArtistPage();
+            });
+
+          default:
+            return MaterialPageRoute(builder: (BuildContext context) {
+              return const NotFoundPage();
+            });
+        }
+      },
     );
   }
 }
