@@ -1,5 +1,8 @@
-import 'package:albums_route/artists_page.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:albums_route/artists_page.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/';

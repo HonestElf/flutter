@@ -1,5 +1,8 @@
-import 'package:albums_route/fetch_file.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:albums_route/fetch_file.dart';
 
 class CurrentArtistPage extends StatefulWidget {
   final String? link;

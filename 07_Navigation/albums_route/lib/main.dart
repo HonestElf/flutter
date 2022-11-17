@@ -1,8 +1,11 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:albums_route/artists_page.dart';
 import 'package:albums_route/current_artist_page.dart';
-import 'package:albums_route/not_found_page.dart';
-import 'package:flutter/material.dart';
 import 'package:albums_route/home_page.dart';
+import 'package:albums_route/not_found_page.dart';
 
 void main() {
   runApp(const MyApp());
