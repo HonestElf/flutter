@@ -76,9 +76,8 @@ class _HomePageState extends State<HomePage> {
                             setState(() {
                               currentPage = page['pageKey'];
                             });
-                            if (_scaffoldKey.currentState != null) {
-                              _scaffoldKey.currentState!.closeDrawer();
-                            }
+
+                            _scaffoldKey.currentState?.closeDrawer();
                           },
                         ))
                     .toList(),
