@@ -68,6 +68,84 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({super.key, required this.title});
+
+//   final String title;
+
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
+
+// class _MyHomePageState extends State<MyHomePage> {
+//   Stream<int> getRandomValue(int count) async* {
+//     var random = Random(2);
+
+//     while (count > 0) {
+//       count -= 1;
+
+//       await Future.delayed(const Duration(seconds: 1));
+//       yield random.nextInt(100);
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(widget.title),
+//       ),
+//       body: StreamBuilder(
+//         stream: getRandomValue(7),
+//         builder: (BuildContext context, AsyncSnapshot snapshot) {
+//           switch (snapshot.connectionState) {
+//             case ConnectionState.none:
+//               return const Center(
+//                 child: Text('NONE'),
+//               );
+
+//             case ConnectionState.waiting:
+//               return const Center(child: CircularProgressIndicator());
+
+//             case ConnectionState.active:
+//               return Center(
+//                 child: Text('${snapshot.data}'),
+//               );
+
+//             case ConnectionState.done:
+//               return const Center(
+//                 child: Text('DONE'),
+//               );
+
+//             default:
+//               return const Center(child: CircularProgressIndicator());
+//           }
+//         },
+//       ),
+//       // body: FutureBuilder(
+//       //   future: fetchFileFromAssets('assets/data.txt'),
+//       //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+//       //     switch (snapshot.connectionState) {
+//       //       case ConnectionState.waiting:
+//       //         return const Center(child: CircularProgressIndicator());
+
+//       //       case ConnectionState.active:
+//       //         return const Center(child: CircularProgressIndicator());
+
+//       //       case ConnectionState.done:
+//       //         return SingleChildScrollView(
+//       //           child: Text(snapshot.data),
+//       //         );
+
+//       //       default:
+//       //         return const Center(child: CircularProgressIndicator());
+//       //     }
+//       //   },
+//       // )
+//     );
+//   }
+// }
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
@@ -92,56 +170,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: StreamBuilder(
-        stream: getRandomValue(7),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return const Center(
-                child: Text('NONE'),
-              );
-
-            case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator());
-
-            case ConnectionState.active:
-              return Center(
-                child: Text('${snapshot.data}'),
-              );
-
-            case ConnectionState.done:
-              return const Center(
-                child: Text('DONE'),
-              );
-
-            default:
-              return const Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
-      // body: FutureBuilder(
-      //   future: fetchFileFromAssets('assets/data.txt'),
-      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //     switch (snapshot.connectionState) {
-      //       case ConnectionState.waiting:
-      //         return const Center(child: CircularProgressIndicator());
-
-      //       case ConnectionState.active:
-      //         return const Center(child: CircularProgressIndicator());
-
-      //       case ConnectionState.done:
-      //         return SingleChildScrollView(
-      //           child: Text(snapshot.data),
-      //         );
-
-      //       default:
-      //         return const Center(child: CircularProgressIndicator());
-      //     }
-      //   },
-      // )
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[Text('aaaaaaa')],
+        ));
   }
 }

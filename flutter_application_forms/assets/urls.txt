@@ -1,0 +1,5 @@
+// all users
+https://run.mocky.io/v3/be7136ff-e208-4e79-876d-7ff2e1dbee32
+
+//500
+https://run.mocky.io/v3/f1eb2edc-b866-4135-97bb-4a2992e9f359
