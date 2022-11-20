@@ -1,7 +1,6 @@
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 import 'package:flutter_application_forms/user.dart';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
@@ -36,8 +35,20 @@ class _DioHomePageState extends State<DioHomePage> {
 
     try {
       // all users
+      // final response = await _dio
+      //     .get('https://run.mocky.io/v3/be7136ff-e208-4e79-876d-7ff2e1dbee32');
+
+      // _users = response.data.map<User>((user) => User.fromJson(user)).toList();
+
+      //user_name
+      // final response = await _dio
+      //     .get('https://run.mocky.io/v3/ad7372cb-6aa7-4dfe-be34-690d94150c47');
+
+      // _users = response.data.map<User>((user) => User.fromJson(user)).toList();
+
+      //without name
       final response = await _dio
-          .get('https://run.mocky.io/v3/be7136ff-e208-4e79-876d-7ff2e1dbee32');
+          .get('https://run.mocky.io/v3/d7064112-a2a3-4c90-b495-60a3ea3f1d00');
 
       _users = response.data.map<User>((user) => User.fromJson(user)).toList();
 
