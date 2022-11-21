@@ -122,26 +122,26 @@ class MyApp extends StatelessWidget {
 //           }
 //         },
 //       ),
-//       // body: FutureBuilder(
-//       //   future: fetchFileFromAssets('assets/data.txt'),
-//       //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-//       //     switch (snapshot.connectionState) {
-//       //       case ConnectionState.waiting:
-//       //         return const Center(child: CircularProgressIndicator());
+// body: FutureBuilder(
+//   future: fetchFileFromAssets('assets/data.txt'),
+//   builder: (BuildContext context, AsyncSnapshot snapshot) {
+//     switch (snapshot.connectionState) {
+//       case ConnectionState.waiting:
+//         return const Center(child: CircularProgressIndicator());
 
-//       //       case ConnectionState.active:
-//       //         return const Center(child: CircularProgressIndicator());
+//       case ConnectionState.active:
+//         return const Center(child: CircularProgressIndicator());
 
-//       //       case ConnectionState.done:
-//       //         return SingleChildScrollView(
-//       //           child: Text(snapshot.data),
-//       //         );
+//       case ConnectionState.done:
+//         return SingleChildScrollView(
+//           child: Text(snapshot.data),
+//         );
 
-//       //       default:
-//       //         return const Center(child: CircularProgressIndicator());
-//       //     }
-//       //   },
-//       // )
+//       default:
+//         return const Center(child: CircularProgressIndicator());
+//     }
+//   },
+// )
 //     );
 //   }
 // }
