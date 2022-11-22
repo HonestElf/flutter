@@ -1,3 +1,4 @@
+// import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_forms/user.dart';
 
@@ -9,9 +10,12 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _fieldNameController = TextEditingController();
-  TextEditingController _fieldEmailController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _fieldNameController = TextEditingController();
+  final TextEditingController _fieldEmailController = TextEditingController();
+
+  // Dio _dio = Dio();
+
   void _submitForm() {
     final form = _formKey.currentState;
     if (form != null && form.validate()) {
@@ -24,16 +28,23 @@ class _LoginViewState extends State<LoginView> {
               'user streer', 'user zipcode', 'user City', 'user suite'));
 
       print(user.toJson());
-
-      // print('Form Submitted');
-      // print('name: ${_fieldNameController.text}');
-      // print('email: ${_fieldEmailController.text}');
+      // _dio.post('user')
+      form.save();
+      form.reset();
     }
   }
 
   String? _validateEmail(value) {
     if (value == '') {
       return 'Заполните Email';
+    } else {
+      return null;
+    }
+  }
+
+  String? _validateName(value) {
+    if (value == '') {
+      return 'Заполните имя';
     } else {
       return null;
     }
@@ -51,13 +62,7 @@ class _LoginViewState extends State<LoginView> {
             children: <Widget>[
               TextFormField(
                 controller: _fieldNameController,
-                validator: ((value) {
-                  if (value == '') {
-                    return 'Заполните имя';
-                  } else {
-                    return null;
-                  }
-                }),
+                validator: _validateName,
                 decoration: const InputDecoration(labelText: 'Name'),
               ),
               TextFormField(
