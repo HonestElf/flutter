@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:load_file/fetch_file.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       isDataLoading = true;
     });
     try {
-      final result = await fetchFileFromAssets('assets/${fileName}.txt');
+      final result = await fetchFileFromAssets('assets/$fileName.txt');
 
       setState(() {
         fileData = result;
@@ -88,26 +90,32 @@ class _MyHomePageState extends State<MyHomePage> {
                           floatingLabelBehavior: FloatingLabelBehavior.never),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: onButtonPressed,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
+                  SizedBox(
+                    height: 59,
+                    child: ElevatedButton(
+                      onPressed: onButtonPressed,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                      ),
+                      child: const Text('Find'),
                     ),
-                    child: const Text('Find'),
                   )
                 ],
               ),
               Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                child: Text(_fileNameController.text),
+                child: _fileNameController.text != ''
+                    ? Text('File name: ${_fileNameController.text}.txt')
+                    : null,
               ),
               Expanded(
                   child: Center(
                 child: isDataLoading
                     ? const CircularProgressIndicator()
                     : hasError
-                        ? const Text('File not found')
+                        ? Text(
+                            'File "${_fileNameController.text}.txt "not found')
                         : SingleChildScrollView(child: Text(fileData ?? '')),
               ))
             ],
