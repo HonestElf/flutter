@@ -3,15 +3,34 @@ import 'package:flutter/services.dart';
 import 'package:testing/utils/validate_email.dart';
 
 class LoginForm extends StatefulWidget {
-  LoginForm({Key key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
-  _LoginFormState createState() => _LoginFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool successMessage = false;
+
+  String? _validateEmail(value) {
+    if (value == '') {
+      return 'Введите email';
+    }
+
+    if (!validateEmail(value)) {
+      return 'Поле email заполнено не корректно';
+    }
+    return null;
+  }
+
+  String? _validatePhone(value) {
+    if (value == '') {
+      return 'Введите номер телефона';
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,38 +39,32 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: <Widget>[
           TextFormField(
-            validator: (value) {
-              if (value == '') return 'Введите email';
-              if (!validateEmail(value))
-                return 'Поле email заполнено не корректно';
-              return null;
-            },
+            key: const Key('fieldEmail'),
+            validator: _validateEmail,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(labelText: 'Email'),
           ),
           TextFormField(
-            validator: (value) {
-              if (value == '') return 'Введите телефон';
-              return null;
-            },
-            decoration: InputDecoration(labelText: 'Phone'),
+            key: const Key('fieldPhone'),
+            validator: _validatePhone,
+            decoration: const InputDecoration(labelText: 'Phone'),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
-              WhitelistingTextInputFormatter.digitsOnly
+              FilteringTextInputFormatter.digitsOnly
             ],
           ),
-          RaisedButton(
-            child: Text('Отправить'),
+          ElevatedButton(
+            child: const Text('Отправить'),
             onPressed: () {
-              if (_formKey.currentState.validate()) {
-                _formKey.currentState.save();
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState!.save();
                 setState(() {
                   successMessage = true;
                 });
               }
             },
           ),
-          if (successMessage) Text('Добро пожаловать'),
+          if (successMessage) const Text('Добро пожаловать'),
         ],
       ),
     );
