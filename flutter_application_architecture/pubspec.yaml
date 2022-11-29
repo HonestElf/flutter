@@ -1,0 +1,29 @@
+name: flutter_application_architecture
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.4 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  module_business:
+    path: packages/module_business
+
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.4
+  get_it: ^7.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner: ^2.3.2
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
