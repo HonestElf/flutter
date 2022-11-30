@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:module_business/module_business.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    _mainBloc = BlocFactory.instance.get<MainBloc>();
+    // _mainBloc = BlocFactory.instance.get<MainBloc>();
+    //added injectable
+    _mainBloc = GetIt.I.get<MainBloc>();
   }
 
   @override

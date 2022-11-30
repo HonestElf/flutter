@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  get_it: ^7.2.0
   module_business:
     path: packages/module_business
 
