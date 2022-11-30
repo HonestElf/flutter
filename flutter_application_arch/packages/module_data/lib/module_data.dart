@@ -6,5 +6,6 @@
 //   int addOne(int value) => value + 1;
 // }
 
-export 'src/storage.dart';
-export 'src/services.dart';
+export 'src/api/storage.dart';
+export 'src/api/services.dart';
+export 'src/service_provider.dart';

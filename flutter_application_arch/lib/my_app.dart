@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:module_business/module_business.dart';
+import 'package:provider/provider.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final MainBloc _mainBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _mainBloc = BlocFactory.instance.get<MainBloc>();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Provider<MainBloc>(
+      create: (context) => _mainBloc,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -28,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() {
+    context.read<MainBloc>().add(0);
     setState(() {
       _counter++;
     });
