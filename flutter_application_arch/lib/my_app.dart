@@ -160,13 +160,13 @@ class MyHomePage extends StatelessWidget {
               ),
               body: Center(
                   child: Text(
-                '${state.userData.name}',
+                value.userData.name,
                 style: Theme.of(context).textTheme.headline4,
               )),
               floatingActionButton: FloatingActionButton(
                 onPressed: () => context
                     .read<MainBloc>()
-                    .add(MainBlocEvent.setUser(userId: state.userData.id + 1)),
+                    .add(MainBlocEvent.setUser(userId: value.userData.id + 1)),
                 tooltip: 'Increment',
                 child: const Icon(Icons.add),
               ),
