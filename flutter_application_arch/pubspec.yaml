@@ -14,6 +14,8 @@ dependencies:
   get_it: ^7.2.0
   module_business:
     path: packages/module_business
+  module_model:
+    path: packages/module_model
 
   cupertino_icons: ^1.0.2
   provider: ^6.0.4

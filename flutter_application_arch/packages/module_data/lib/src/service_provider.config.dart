@@ -23,7 +23,7 @@ extension GetItInjectableX on _i1.GetIt {
       environment,
       environmentFilter,
     );
-    gh.lazySingleton<_i3.HealthService>(() => _i4.DummyService());
+    gh.lazySingleton<_i3.UserService>(() => _i4.DummyUserService());
     return this;
   }
 }
