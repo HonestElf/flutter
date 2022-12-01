@@ -1,0 +1,42 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - packages/module_codegen/**
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
+    - '**/*.config.dart'
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+  errors:
+    todo: warning
+    missing_return: error
+    dead_code: warning
+    implicit_dynamic_type: warning
+  plugins:
+    - dart_code_metrics
+
+linter:
+  rules:
+    prefer_single_quotes: true # Uncomment to enable the `prefer_single_quotes` rule
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
+    number-of-parameters: 4
+    maximum-nesting-level: 5
+  metrics-exclude:
+    - test/**
+  rules:
+    - avoid-dynamic
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - prefer-trailing-comma
+    - prefer-conditional-expressions
+    - no-equal-then-else
+  anti-patterns:
+    - long-method
+    - long-parameter-list

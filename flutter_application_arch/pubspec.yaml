@@ -23,6 +23,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  module_analyzer:
+    path: packages/module_analyzer
 
   flutter_lints: ^2.0.0
 

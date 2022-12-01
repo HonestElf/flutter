@@ -37,7 +37,6 @@ String get $propertyName =>'$value';
     }
 
     output.writeln(_epilogue);
-    print(output.toString());
 
     // final formattedCode = DartFormatter().format(output.toString());
 

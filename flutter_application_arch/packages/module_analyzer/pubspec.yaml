@@ -1,4 +1,4 @@
-name: module_codegen
+name: module_analyzer
 description: A new Flutter package project.
 version: 0.0.1
 homepage:
@@ -10,15 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path: ^1.8.2
-  dart_style: ^2.2.4
-  build_runner: ^2.3.2
+  dart_code_metrics: ^5.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  module_analyzer:
-    path: ../module_analyzer
 
 flutter:
