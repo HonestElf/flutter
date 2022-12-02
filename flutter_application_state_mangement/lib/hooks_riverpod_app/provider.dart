@@ -2,12 +2,10 @@
 import 'package:flutter/cupertino.dart';
 
 // Package imports:
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
 import 'package:flutter_application_state_mangement/hooks_riverpod_app/item.dart';
-
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @immutable
 class GamesCatalogState {
