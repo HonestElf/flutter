@@ -35,7 +35,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Build');
     return Scaffold(
       appBar: AppBar(
         title: Text(title),

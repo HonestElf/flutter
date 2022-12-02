@@ -36,7 +36,6 @@ class MyHomePage extends ConsumerWidget {
     final count = ref.watch(counterProvider);
     final provider = ref.watch(counterProvider.notifier);
 
-    print('Build');
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
