@@ -2,16 +2,18 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:flutter_application_state_mangement/api/api.dart';
-import 'package:flutter_application_state_mangement/riverpod_app/item.dart';
-import 'package:flutter_application_state_mangement/riverpod_app/item_card.dart';
-import 'package:flutter_application_state_mangement/riverpod_app/provider.dart';
+import 'package:flutter_application_state_mangement/hooks_riverpod_app/item.dart';
+import 'package:flutter_application_state_mangement/hooks_riverpod_app/item_card.dart';
+import 'package:flutter_application_state_mangement/hooks_riverpod_app/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class RiverpodApp extends StatelessWidget {
-  const RiverpodApp({super.key});
+class HooksRiverpodApp extends StatelessWidget {
+  const HooksRiverpodApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +30,12 @@ class RiverpodApp extends StatelessWidget {
   }
 }
 
-class RiverpodHome extends ConsumerStatefulWidget {
+class RiverpodHome extends HookConsumerWidget {
   const RiverpodHome({super.key, required this.title});
 
   final String title;
 
-  @override
-  ConsumerState<RiverpodHome> createState() => RiverpodHomeState();
-}
-
-class RiverpodHomeState extends ConsumerState<RiverpodHome> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    getAllGames();
-  }
-
-  getAllGames() async {
+  getAllGames(WidgetRef ref) async {
     try {
       final contextAction = ref.watch(gamesCatalogProvider.notifier);
       final response = await getItems();
@@ -59,8 +50,16 @@ class RiverpodHomeState extends ConsumerState<RiverpodHome> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final catalogState = ref.watch(gamesCatalogProvider);
+
+    useEffect(
+      () {
+        getAllGames(ref);
+        return null;
+      },
+      [],
+    );
 
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 207, 202, 202),
