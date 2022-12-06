@@ -1,7 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter_application_state_mangement/bloc_app/actions/game_catalog_actions.dart';
-import 'package:flutter_application_state_mangement/bloc_app/bloc.dart/games_bloc.dart';
+import 'package:flutter_application_state_mangement/bloc_app/bloc/games_bloc.dart';
 import 'package:flutter_application_state_mangement/bloc_app/model/games_repository.dart';
 import 'package:flutter_application_state_mangement/bloc_app/model/state.dart';
 

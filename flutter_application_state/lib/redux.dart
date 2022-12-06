@@ -15,11 +15,6 @@ int counterReducer(int state, dynamic action) {
 
 class Counter with ChangeNotifier {
   int value = 0;
-
-  void increment() {
-    value++;
-    notifyListeners();
-  }
 }
 
 class ReduxApp extends StatelessWidget {

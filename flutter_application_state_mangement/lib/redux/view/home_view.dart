@@ -1,31 +1,64 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_application_state_mangement/cubit_app/bloc/games_bloc.dart';
-import 'package:flutter_application_state_mangement/cubit_app/model/games_repository.dart';
-import 'package:flutter_application_state_mangement/cubit_app/model/state.dart';
+import 'package:flutter_application_state_mangement/redux/middleware/store_middleware.dart';
+import 'package:flutter_application_state_mangement/redux/model/item.dart';
+import 'package:flutter_application_state_mangement/redux/actions/game_catalog_actions.dart';
+import 'package:flutter_application_state_mangement/redux/model/state.dart';
+
+// Package imports:
 
 // Project imports:
-import 'package:flutter_application_state_mangement/cubit_app/view/item_card.dart';
+import 'package:flutter_application_state_mangement/redux/view/item_card.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
-class CubitApp extends StatelessWidget {
-  const CubitApp({super.key});
+class ReduxApp extends StatelessWidget {
+  ReduxApp({super.key});
+  final store = Store<GamesCatalogState>(appReducer,
+      initialState: GamesCatalogState.initial(),
+      middleware: createStoreMiddleware());
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return StoreProvider<GamesCatalogState>(
+        store: store,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          routes: {
+            "/": (context) {
+              return MyHomePage(
+                  title: 'Flutter Demo Home Page',
+                  onInit: () {
+                    StoreProvider.of<GamesCatalogState>(context)
+                        .dispatch(InitGamesList());
+                  });
+            }
+          },
+        ));
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class _ViewModel {
+  final GamesCatalogState state;
 
+  final VoidCallback onInit;
+  final void Function(GameItem item) onAddItemToCart;
+
+  _ViewModel({
+    required this.state,
+    required this.onInit,
+    required this.onAddItemToCart,
+  });
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title, required this.onInit});
+
+  final void Function() onInit;
   final String title;
 
   @override
@@ -33,28 +66,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late final GamesCatalogBloc bloc;
-
   @override
   void initState() {
     super.initState();
-
-    bloc = GamesCatalogBloc(const ConstGamesRepository());
-    bloc.initGamesList();
-  }
-
-  @override
-  void dispose() {
-    bloc.dispose();
-    super.dispose();
+    widget.onInit();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<GamesCatalogState>(
-      stream: bloc.state,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+    return StoreConnector<GamesCatalogState, _ViewModel>(
+      converter: (store) {
+        return _ViewModel(
+            state: store.state,
+            onInit: () => store.dispatch(InitGamesList()),
+            onAddItemToCart: (item) => store.dispatch(AddItemToCart(item)));
+      },
+      builder: (context, _ViewModel vm) {
+        if (vm.state.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -73,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         const Center(
                           child: Icon(Icons.shopping_basket_outlined),
                         ),
-                        snapshot.data!.gamesInCart.isNotEmpty
+                        vm.state.gamesInCart.isNotEmpty
                             ? Positioned(
                                 right: -5,
                                 top: 9,
@@ -86,8 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           Radius.circular(20))),
                                   child: Text(
                                     textAlign: TextAlign.center,
-                                    snapshot.data!.gamesInCart.length
-                                        .toString(),
+                                    vm.state.gamesInCart.length.toString(),
                                   ),
                                 ))
                             : const SizedBox()
@@ -97,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             body: Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              child: snapshot.data!.isLoading
+              child: vm.state.isLoading
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
@@ -107,10 +134,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisCount: 2,
                       childAspectRatio: 0.8,
                       children: <Widget>[
-                        ...snapshot.data!.allGAmes
+                        ...vm.state.allGAmes
                             .map((game) => ItemCard(
                                   item: game,
-                                  pressHandler: () => bloc.addItemToCart(game),
+                                  pressHandler: () => vm.onAddItemToCart(game),
                                 ))
                             .toList()
                       ],
