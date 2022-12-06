@@ -39,9 +39,7 @@ class GamesCatalogBloc {
     } else if (action is AddItemToCart) {
       _currentState = _currentState
           .copyWith(gamesInCart: [..._currentState.gamesInCart, action.item]);
-      print('ADD');
     }
-    print('_currentState: $_currentState');
     _stateController.add(_currentState);
   }
 }
