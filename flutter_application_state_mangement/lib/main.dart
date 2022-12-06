@@ -16,7 +16,10 @@ import 'package:flutter/material.dart';
 
 // import 'package:flutter_application_state_mangement/flutter_bloc_lib/view/home_view.dart';
 
-import 'package:flutter_application_state_mangement/redux/view/home_view.dart';
+// import 'package:flutter_application_state_mangement/redux/view/home_view.dart';
+
+// import 'package:flutter_application_state_mangement/fish_redux/view/home_view.dart';
+import 'package:flutter_application_state_mangement/mob_x/view/home_view.dart';
 
 void main() {
   // runApp(const ProviderApp());
@@ -26,5 +29,9 @@ void main() {
   // runApp(const CubitApp());
   // runApp(const FlutterBlocLibraryApp());
 
-  runApp(ReduxApp());
+  // runApp(ReduxApp());
+
+  // runApp(FishReduxApp());
+
+  runApp(MobXApp());
 }
