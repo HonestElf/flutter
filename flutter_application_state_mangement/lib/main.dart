@@ -2,9 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:flutter_application_state_mangement/mob_x/view/home_view.dart';
-
-// Project imports:
 // import 'package:flutter_application_state_mangement/provider_app/home_view.dart';
 
 // Project imports:
@@ -21,7 +18,10 @@ import 'package:flutter_application_state_mangement/mob_x/view/home_view.dart';
 
 // import 'package:flutter_application_state_mangement/redux/view/home_view.dart';
 
-// import 'package:flutter_application_state_mangement/fish_redux/view/home_view.dart';
+import 'package:flutter_application_state_mangement/fish_redux/home_view.dart';
+
+// Project imports:
+// import 'package:flutter_application_state_mangement/mob_x/view/home_view.dart';
 
 void main() {
   // runApp(const ProviderApp());
@@ -33,7 +33,7 @@ void main() {
 
   // runApp(ReduxApp());
 
-  // runApp(FishReduxApp());
+  runApp(FishReduxApp());
 
-  runApp(const MobXApp());
+  // runApp(const MobXApp());
 }
