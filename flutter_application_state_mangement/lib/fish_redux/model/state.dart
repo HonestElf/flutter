@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/cupertino.dart';
+
+// Package imports:
+import 'package:redux/redux.dart';
+
+// Project imports:
 import 'package:flutter_application_state_mangement/fish_redux/actions/game_catalog_actions.dart';
 import 'package:flutter_application_state_mangement/fish_redux/model/item.dart';
-import 'package:redux/redux.dart';
 
 @immutable
 class GamesCatalogState {

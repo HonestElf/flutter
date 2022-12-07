@@ -1,10 +1,10 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:flutter_application_state_mangement/cubit_app/bloc/games_bloc.dart';
 import 'package:flutter_application_state_mangement/cubit_app/model/games_repository.dart';
 import 'package:flutter_application_state_mangement/cubit_app/model/state.dart';
-
-// Project imports:
 import 'package:flutter_application_state_mangement/cubit_app/view/item_card.dart';
 
 class CubitApp extends StatelessWidget {

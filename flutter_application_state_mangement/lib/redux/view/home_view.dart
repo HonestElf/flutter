@@ -1,16 +1,19 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+
+// Project imports:
+import 'package:flutter_application_state_mangement/redux/actions/game_catalog_actions.dart';
 import 'package:flutter_application_state_mangement/redux/middleware/store_middleware.dart';
 import 'package:flutter_application_state_mangement/redux/model/item.dart';
-import 'package:flutter_application_state_mangement/redux/actions/game_catalog_actions.dart';
 import 'package:flutter_application_state_mangement/redux/model/state.dart';
+import 'package:flutter_application_state_mangement/redux/view/item_card.dart';
 
 // Package imports:
 
-// Project imports:
-import 'package:flutter_application_state_mangement/redux/view/item_card.dart';
-import 'package:redux/redux.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 
 class ReduxApp extends StatelessWidget {
   ReduxApp({super.key});

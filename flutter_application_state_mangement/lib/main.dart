@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:flutter_application_state_mangement/mob_x/view/home_view.dart';
+
+// Project imports:
 // import 'package:flutter_application_state_mangement/provider_app/home_view.dart';
 
 // Project imports:
@@ -19,7 +22,6 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_application_state_mangement/redux/view/home_view.dart';
 
 // import 'package:flutter_application_state_mangement/fish_redux/view/home_view.dart';
-import 'package:flutter_application_state_mangement/mob_x/view/home_view.dart';
 
 void main() {
   // runApp(const ProviderApp());
@@ -33,5 +35,5 @@ void main() {
 
   // runApp(FishReduxApp());
 
-  runApp(MobXApp());
+  runApp(const MobXApp());
 }

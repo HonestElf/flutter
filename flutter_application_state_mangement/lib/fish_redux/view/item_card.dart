@@ -1,7 +1,7 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
+// Project imports:
 import 'package:flutter_application_state_mangement/fish_redux/model/item.dart';
 
 class ItemCard extends StatefulWidget {

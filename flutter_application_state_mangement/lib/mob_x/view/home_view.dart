@@ -1,16 +1,18 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_application_state_mangement/mob_x/model/item.dart';
-import 'package:flutter_application_state_mangement/mob_x/actions/game_catalog_actions.dart';
-import 'package:flutter_application_state_mangement/mob_x/model/state.dart';
 
 // Package imports:
-
-// Project imports:
-import 'package:flutter_application_state_mangement/mob_x/view/item_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+
+// Project imports:
+import 'package:flutter_application_state_mangement/mob_x/actions/game_catalog_actions.dart';
+import 'package:flutter_application_state_mangement/mob_x/model/games_repository.dart';
+import 'package:flutter_application_state_mangement/mob_x/model/item.dart';
+import 'package:flutter_application_state_mangement/mob_x/model/state.dart';
+import 'package:flutter_application_state_mangement/mob_x/view/item_card.dart';
+
+// Package imports:
 
 class MobXApp extends StatelessWidget {
   const MobXApp({super.key});
@@ -18,7 +20,7 @@ class MobXApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
-        create: (context) => GamesCatalogState(),
+        create: (context) => GamesCatalogState(const ConstGamesRepository()),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
@@ -27,7 +29,7 @@ class MobXApp extends StatelessWidget {
           ),
           routes: {
             "/": (context) {
-              return MyHomePage(
+              return const MyHomePage(
                 title: 'Flutter Demo Home Page',
               );
             }
@@ -49,11 +51,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = Provider.of<GamesCatalogState>(context);

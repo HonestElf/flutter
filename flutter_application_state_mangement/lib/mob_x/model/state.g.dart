@@ -57,19 +57,16 @@ mixin _$GamesCatalogState on _GamesCatalogState, Store {
     });
   }
 
-  late final _$_GamesCatalogStateActionController =
-      ActionController(name: '_GamesCatalogState', context: context);
+  late final _$initGamesListAsyncAction =
+      AsyncAction('_GamesCatalogState.initGamesList', context: context);
 
   @override
-  void initGamesList() {
-    final _$actionInfo = _$_GamesCatalogStateActionController.startAction(
-        name: '_GamesCatalogState.initGamesList');
-    try {
-      return super.initGamesList();
-    } finally {
-      _$_GamesCatalogStateActionController.endAction(_$actionInfo);
-    }
+  Future<void> initGamesList() {
+    return _$initGamesListAsyncAction.run(() => super.initGamesList());
   }
+
+  late final _$_GamesCatalogStateActionController =
+      ActionController(name: '_GamesCatalogState', context: context);
 
   @override
   void addItemToCart(GameItem item) {

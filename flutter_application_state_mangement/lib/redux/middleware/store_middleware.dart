@@ -1,8 +1,11 @@
+// Package imports:
+import 'package:redux/redux.dart';
+
+// Project imports:
 import 'package:flutter_application_state_mangement/redux/actions/game_catalog_actions.dart';
 import 'package:flutter_application_state_mangement/redux/model/games_repository.dart';
 import 'package:flutter_application_state_mangement/redux/model/item.dart';
 import 'package:flutter_application_state_mangement/redux/model/state.dart';
-import 'package:redux/redux.dart';
 
 List<Middleware<GamesCatalogState>> createStoreMiddleware([
   GamesRepository speakersRepo = const ConstGamesRepository(),

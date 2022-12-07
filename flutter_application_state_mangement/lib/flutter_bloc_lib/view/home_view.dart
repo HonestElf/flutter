@@ -1,13 +1,15 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/actions/game_catalog_actions.dart';
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/bloc/games_bloc.dart';
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/model/games_repository.dart';
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/model/state.dart';
-
-// Project imports:
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/view/item_card.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FlutterBlocLibraryApp extends StatelessWidget {
   const FlutterBlocLibraryApp({super.key});

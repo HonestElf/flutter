@@ -1,9 +1,11 @@
+// Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/actions/game_catalog_actions.dart';
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/model/games_repository.dart';
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/model/item.dart';
 import 'package:flutter_application_state_mangement/flutter_bloc_lib/model/state.dart';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GamesCatalogBloc extends Bloc<Action, GamesCatalogState> {
   final GamesRepository _gamesRepository;
