@@ -13,16 +13,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   late AppTheme currentTheme;
   late ThemeNameEnum currentThemeName;
 
+  double sliderValue = 0;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   void switchTheme() {
     if (currentThemeName == ThemeNameEnum.light) {
@@ -36,6 +32,12 @@ class _MyHomePageState extends State<MyHomePage> {
         currentThemeName = ThemeNameEnum.light;
       });
     }
+  }
+
+  void changeSliderValue(double newValue) {
+    setState(() {
+      sliderValue = newValue;
+    });
   }
 
   @override
@@ -67,23 +69,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               backgroundColor: AppThemeWidget.of(context).headerColor,
             ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  WeatherWidget(),
-                  Text(
-                    'You have pushed the button this many times:',
-                    style: TextStyle(
-                        color: AppThemeWidget.of(context).primaryTextColor),
+            body: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Align(
+                    alignment: Alignment.topRight,
+                    child: WeatherWidget(
+                      weatherCondition: sliderValue,
+                    )),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: 300,
+                    child: Slider(
+                        value: sliderValue,
+                        min: 0,
+                        max: 1,
+                        onChanged: changeSliderValue),
                   ),
-                  Text(
-                    '$_counter',
-                    style: TextStyle(
-                        color: AppThemeWidget.of(context).primaryTextColor),
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
             endDrawer: Drawer(
                 backgroundColor: AppThemeWidget.of(context).secondaryColor,
@@ -104,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 )),
             floatingActionButton: FloatingActionButton(
-              onPressed: _incrementCounter,
+              onPressed: () {},
               tooltip: 'Increment',
               backgroundColor: AppThemeWidget.of(context).buttonColor,
               child: Icon(Icons.add,
