@@ -1,3 +1,5 @@
+import 'package:advanced_widgets_homework/src/theme_widget.dart';
+import 'package:advanced_widgets_homework/src/weather_widget/weather_painter.dart';
 import 'package:flutter/material.dart';
 
 enum ScaleNames { normal, big }
@@ -39,7 +41,12 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                      color: AppThemeWidget.of(context).primaryColor),
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               width: 80 * scaleRate,
               height: 80 * scaleRate,
               child: CustomPaint(
@@ -56,108 +63,4 @@ class _WeatherWidgetState extends State<WeatherWidget> {
       ),
     );
   }
-}
-
-class CustomWeatherPainter extends CustomPainter {
-  double scaleRate;
-  double weatherCondition;
-
-  double _getSunOpacity() {
-    if (weatherCondition < 0.4) {
-      return 0;
-    }
-
-    return 5 / 3 * weatherCondition - 2 / 3;
-  }
-
-  double _getCloudOpacity() {
-    if (weatherCondition > 0.9) {
-      return 0;
-    }
-
-    return -(10 / 9) * weatherCondition + 1;
-  }
-
-  double _getDropsOpacity() {
-    if (weatherCondition > 0.4) {
-      return 0;
-    }
-
-    return -2.25 * weatherCondition + 1;
-  }
-
-  CustomWeatherPainter(
-      {required this.scaleRate, required this.weatherCondition});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    double canvasHeight = size.height;
-    double canvasWidth = size.width;
-
-    final sunPainter = Paint()
-      ..color = Colors.yellow.withOpacity(_getSunOpacity())
-      ..style = PaintingStyle.fill;
-
-    Offset sunCenter =
-        Offset(canvasHeight / 2 + 10 * scaleRate, canvasWidth / 2);
-
-    canvas.drawCircle(sunCenter, (canvasHeight * 0.6) / 2, sunPainter);
-
-    final cloudPainter = Paint()
-      ..color = Colors.black.withOpacity(_getCloudOpacity())
-      ..style = PaintingStyle.fill;
-
-    var cloud = Path()
-      ..moveTo(20 * scaleRate, canvasHeight - 20 * scaleRate)
-      ..quadraticBezierTo(-10 * scaleRate, canvasHeight - 30 * scaleRate,
-          10 * scaleRate, canvasHeight - 40 * scaleRate)
-      ..lineTo(20 * scaleRate, canvasHeight - 40 * scaleRate)
-      ..quadraticBezierTo(40 * scaleRate, canvasHeight - 60 * scaleRate,
-          60 * scaleRate, canvasHeight - 40 * scaleRate)
-      ..lineTo(70 * scaleRate, canvasHeight - 40 * scaleRate)
-      ..quadraticBezierTo(
-          canvasWidth + 10 * scaleRate,
-          canvasHeight - 30 * scaleRate,
-          70 * scaleRate,
-          canvasHeight - 20 * scaleRate)
-      ..close();
-
-    canvas.drawPath(cloud, cloudPainter);
-
-    final rainDropsPainter = Paint()
-      ..color = Colors.blue.withOpacity(_getDropsOpacity())
-      ..style = PaintingStyle.fill;
-
-    var rainDrop1 = Path()
-      ..moveTo(20 * scaleRate, canvasHeight - 15 * scaleRate)
-      ..lineTo(15 * scaleRate, canvasHeight - 5 * scaleRate)
-      ..quadraticBezierTo(20 * scaleRate, canvasHeight + 5 * scaleRate,
-          25 * scaleRate, canvasHeight - 5 * scaleRate)
-      ..close();
-
-    var rainDrop2 = Path()
-      ..moveTo((canvasWidth / 2), canvasHeight - 15 * scaleRate)
-      ..lineTo(canvasWidth / 2 - 5 * scaleRate, canvasHeight - 5 * scaleRate)
-      ..quadraticBezierTo((canvasWidth / 2), canvasHeight + 5 * scaleRate,
-          canvasWidth / 2 + 5 * scaleRate, canvasHeight - 5 * scaleRate)
-      ..close();
-
-    var rainDrop3 = Path()
-      ..moveTo(canvasWidth - 20 * scaleRate, canvasHeight - 15 * scaleRate)
-      ..lineTo(canvasWidth - 15 * scaleRate, canvasHeight - 5 * scaleRate)
-      ..quadraticBezierTo(
-          canvasWidth - 20 * scaleRate,
-          canvasHeight + 5 * scaleRate,
-          canvasWidth - 25 * scaleRate,
-          canvasHeight - 5 * scaleRate)
-      ..close();
-
-    canvas.drawPath(rainDrop1, rainDropsPainter);
-    canvas.drawPath(rainDrop2, rainDropsPainter);
-    canvas.drawPath(rainDrop3, rainDropsPainter);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomWeatherPainter oldDelegate) =>
-      oldDelegate.scaleRate != scaleRate;
 }

@@ -83,6 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: SizedBox(
                     width: 300,
                     child: Slider(
+                        activeColor:
+                            AppThemeWidget.of(context).primaryTextColor,
                         value: sliderValue,
                         min: 0,
                         max: 1,
@@ -109,13 +111,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 AppThemeWidget.of(context).secondaryTextColor)),
                   ),
                 )),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {},
-              tooltip: 'Increment',
-              backgroundColor: AppThemeWidget.of(context).buttonColor,
-              child: Icon(Icons.add,
-                  color: AppThemeWidget.of(context).secondaryColor),
-            ),
           ),
         ));
   }
