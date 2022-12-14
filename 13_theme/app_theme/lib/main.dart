@@ -1,4 +1,4 @@
-import 'package:app_theme/theme.dart';
+import 'package:app_theme/src/themes/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -201,7 +201,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             },
                           )
                         ],
-                        title: const Text('Сменить аватар'),
+                        title: const Text(
+                          'Сменить аватар',
+                        ),
                       ),
                     );
                   },
