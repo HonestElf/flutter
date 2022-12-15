@@ -1,5 +1,7 @@
+// Dart imports:
 import 'dart:io';
 
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 
 enum CustomPlatform { linux, macos, windows, ios, android, web, undefined }

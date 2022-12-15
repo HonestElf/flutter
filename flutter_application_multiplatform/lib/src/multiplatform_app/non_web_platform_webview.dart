@@ -1,7 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
-import 'package:flutter_application_multiplatform/src/app_platform.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
+// Package imports:
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+// Project imports:
+import 'package:flutter_application_multiplatform/src/multiplatform_app/app_platform.dart';
 
 Widget webView(String link) => AppPlatform.isMobile
     ? WebView(
