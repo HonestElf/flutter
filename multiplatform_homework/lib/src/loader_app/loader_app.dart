@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:multiplatform_homework/src/loader_app/app_platform.dart';
 import 'package:multiplatform_homework/src/loader_app/loader_widget.dart';
 
 class MyApp extends StatelessWidget {
@@ -113,6 +114,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
           ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+            border: Border(top: BorderSide(color: Colors.grey, width: 2))),
+        height: 50,
+        child: Center(
+          child: Text(
+            "Application running on ${AppPlatform.platformName}".toUpperCase(),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
