@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _src = '';
+  final TextEditingController _fileNameController = TextEditingController();
   String _htmlText = '';
   String _pageTitle = '';
   Map<String, dynamic> _headers = {};
@@ -37,20 +37,18 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _hasError = false;
   String _errorText = '';
 
-  void handleInputChange(String value) {
-    setState(() {
-      _src = value;
-    });
+  void onButtonPressed() {
+    loadContent(_fileNameController.text);
   }
 
-  Future<void> loadContent() async {
+  Future<void> loadContent(String src) async {
     setState(() {
       _isLoading = true;
       _hasError = false;
     });
     try {
-      // final response = await http.get(Uri.parse(_src));
-      final response = await http.get(Uri.parse('https://flutter.dev'));
+      final response = await http.get(Uri.parse(src));
+      // final response = await http.get(Uri.parse('https://flutter.dev'));
       String? title = RegExp(
               r"<[t|T]{1}[i|I]{1}[t|T]{1}[l|L]{1}[e|E]{1}(\s.*)?>([^<]*)</[t|T]{1}[i|I]{1}[t|T]{1}[l|L]{1}[e|E]{1}>")
           .stringMatch(response.body);
@@ -88,7 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             LoaderWidget(
-                changeHanler: handleInputChange, loadTapHandler: loadContent),
+                fileNameController: _fileNameController,
+                loadTapHandler: onButtonPressed),
             _isLoading
                 ? const CircularProgressIndicator()
                 : _hasError

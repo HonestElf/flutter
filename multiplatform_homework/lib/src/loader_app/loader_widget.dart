@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LoaderWidget extends StatelessWidget {
-  final void Function(String) changeHanler;
+  final TextEditingController fileNameController;
   final void Function() loadTapHandler;
   const LoaderWidget(
-      {super.key, required this.changeHanler, required this.loadTapHandler});
+      {super.key,
+      required this.fileNameController,
+      required this.loadTapHandler});
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +18,14 @@ class LoaderWidget extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
-              onChanged: changeHanler,
+              controller: fileNameController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter SRC',
               ),
             ),
           ),
-          ElevatedButton(
-              onPressed: () {
-                loadTapHandler();
-              },
-              child: const Text('Load'))
+          ElevatedButton(onPressed: loadTapHandler, child: const Text('Load'))
         ],
       ),
     );
