@@ -51,7 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
       _hasError = false;
     });
     try {
-      print('FUNC: $src');
       final response = await http.get(Uri.parse(src));
       // final response = await http.get(Uri.parse('https://flutter.dev'));
       String? title = RegExp(
@@ -156,6 +155,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-// https://flutter.dev
-// WEB VIEW: https://flutter.dev
