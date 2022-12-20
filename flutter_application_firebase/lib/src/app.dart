@@ -47,11 +47,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _submit() {
-    setState(() {
-      _users.add(User(
-          name: _nameController.text,
-          amount: int.parse(_amountController.text)));
-    });
+    if (_nameController.text != '') {
+      setState(() {
+        _users.add(User(
+            name: _nameController.text,
+            amount: int.parse(
+                _amountController.text != '' ? _amountController.text : '0')));
+      });
+    }
   }
 
   @override
