@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_project/src/user.dart';
+
+import 'package:flutter_svg/flutter_svg.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -33,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _amountController = TextEditingController();
 
   late CollectionReference<User> _users;
+  final storage = FirebaseStorage.instance;
 
   @override
   void initState() {
@@ -69,7 +73,25 @@ class _MyHomePageState extends State<MyHomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: SizedBox(
+            width: 100,
+            height: 50,
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: FutureBuilder(
+                // future: storage.ref('logo.png').getDownloadURL(),
+                future: storage.ref('flutter_logo.svg').getDownloadURL(),
+                builder: (context, snapshot) => snapshot.connectionState ==
+                        ConnectionState.done
+                    ? SvgPicture.network(snapshot.data!, fit: BoxFit.scaleDown)
+                    : const SizedBox(),
+              ),
+              // child: Image.asset(
+              //   '../../assets/logo.png',
+              //   fit: BoxFit.scaleDown,
+              // ),
+            ),
+          ),
         ),
         body: Center(
           child: Column(
