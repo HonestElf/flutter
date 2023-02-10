@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_project/src/user.dart';
 
@@ -26,27 +27,40 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _users = <User>[];
+  // final _users = <User>[];
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
+
+  late CollectionReference<User> _users;
 
   @override
   void initState() {
     super.initState();
 
-    _users.add(const User(name: 'Sasha', amount: 100));
-    _users.add(const User(name: 'Vasya', amount: 200));
+    // _users.add(const User(name: 'Sasha', amount: 100));
+    // _users.add(const User(name: 'Vasya', amount: 200));
+
+    _users = FirebaseFirestore.instance
+        .collection('birthday')
+        .withConverter<User>(
+          fromFirestore: (snapshot, options) => User.fromJson(snapshot.data()!),
+          toFirestore: (value, options) => value.toJson(),
+        );
   }
 
   void _submit() {
     if (_nameController.text != '') {
-      setState(() {
-        _users.add(User(
-            name: _nameController.text,
-            amount: int.parse(
-                _amountController.text != '' ? _amountController.text : '0')));
-      });
+      // setState(() {
+      //   _users.add(User(
+      //       name: _nameController.text,
+      //       amount: int.parse(
+      //           _amountController.text != '' ? _amountController.text : '0')));
+      // });
+
+      _users.add(User(
+          name: _nameController.text,
+          amount: int.parse(_amountController.text)));
     }
   }
 
@@ -61,16 +75,20 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: <Widget>[
               Expanded(
-                  child: ListView(
-                children: [
-                  ..._users
-                      .map((user) => ListTile(
-                            leading: Text(user.name),
-                            trailing: Text('${user.amount}\$'),
-                          ))
-                      .toList()
-                ],
-              )),
+                  child: StreamBuilder<List<User>>(
+                      stream: _users.snapshots().map(
+                          (event) => event.docs.map((e) => e.data()).toList()),
+                      builder: (context, snapshot) {
+                        return ListView(
+                            children: snapshot.hasData
+                                ? snapshot.data!
+                                    .map((user) => ListTile(
+                                          leading: Text(user.name),
+                                          trailing: Text('${user.amount}\$'),
+                                        ))
+                                    .toList()
+                                : []);
+                      })),
               SizedBox(
                 height: 100,
                 child: Row(
