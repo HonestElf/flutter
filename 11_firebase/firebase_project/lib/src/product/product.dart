@@ -31,9 +31,3 @@ class ProductItem extends StatelessWidget {
     );
   }
 }
-
-List<Map<String, Object?>> productsList = [
-  {'name': 'Potato', 'selected': false},
-  {'name': 'Tomato', 'selected': true},
-  {'name': 'Lemon', 'selected': false},
-];
