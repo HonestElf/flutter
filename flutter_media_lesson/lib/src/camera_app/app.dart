@@ -5,8 +5,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyCameraApp extends StatelessWidget {
+  const MyCameraApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    unawaited(initCamera());
+    initCamera();
   }
 
   @override
@@ -89,8 +89,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    print('RENDERED');
-    print('lastImage: ${lastImage}');
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -126,16 +124,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               child: IconButton(
                 iconSize: 48,
                 onPressed: () async {
-                  print('BEFORE');
-                  lastImage = await camController
-                      ?.takePicture()
-                      .whenComplete(() => print('LAST_IMAGE: ${lastImage}'))
-                      .onError((error, stackTrace) {
-                    print('ERROR: ${error.toString()}');
-                    throw {error};
-                  });
+                  lastImage = await camController?.takePicture();
 
-                  print("AFTER TAKE PICTURE");
                   setState(() {});
                 },
                 icon: const Icon(Icons.camera),
