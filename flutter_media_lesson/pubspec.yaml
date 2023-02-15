@@ -41,6 +41,8 @@ dependencies:
   video_player: ^2.5.1
   path: ^1.8.2
   path_provider: ^1.6.1
+  flutter_inappwebview: ^5.7.2+3
+  webview_flutter: ^4.0.2
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +69,8 @@ flutter:
   assets:
     - assets/Butterfly-209.mp4
     - assets/bumble_bee_captions.vtt
-  #   - images/a_dot_ham.jpeg
+    - assets/index.html
+    - assets/details.html
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
