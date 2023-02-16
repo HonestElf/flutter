@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:webview_camera_maps_playback_flutter/src/camera_app/camera_widget.dart';
+import 'package:webview_camera_maps_playback_flutter/src/camera_app/gallery_widget.dart';
+import 'package:webview_camera_maps_playback_flutter/src/camera_app/menu_item.dart';
+
+final List<NevMenuItem> bottomNavItems = [
+  const NevMenuItem(itemIcon: Icons.camera, label: 'Camera'),
+  const NevMenuItem(itemIcon: Icons.photo, label: 'Gallery')
+];
 
 class CameraApp extends StatelessWidget {
   const CameraApp({super.key});
@@ -7,6 +15,7 @@ class CameraApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -24,23 +33,51 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  late PageController _pageController;
+  int _currentPageIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _pageController = PageController(initialPage: _currentPageIndex);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      body: PageView(
+        controller: _pageController,
+        children: [CameraWidget(), GalleryWidget()],
+        onPageChanged: (index) {
+          setState(() {
+            _currentPageIndex = index;
+          });
+        },
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentPageIndex,
+          onTap: (currentIndex) {
+            setState(() {
+              _currentPageIndex = currentIndex;
+              _pageController.animateToPage(currentIndex,
+                  duration: Duration(milliseconds: 300), curve: Curves.linear);
+            });
+          },
+          items: [
+            ...bottomNavItems
+                .map((item) => BottomNavigationBarItem(
+                    icon: Icon(item.itemIcon), label: item.label))
+                .toList()
+          ]),
     );
   }
 }
