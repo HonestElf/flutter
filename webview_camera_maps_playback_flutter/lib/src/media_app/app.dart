@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     _controller.addListener(() {
       setState(() {});
     });
-    _controller.setLooping(true);
+    // _controller.setLooping(true);
     _controller.initialize();
   }
 
@@ -64,42 +64,75 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         title: Text(widget.title),
       ),
       body: SizedBox(
-        height: 200,
-        child: Stack(
+        height: 400,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            VideoPlayer(_controller),
-            ClosedCaption(
-              text: _controller.value.caption.text,
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: VideoProgressIndicator(
-                _controller,
-                allowScrubbing: true,
-              ),
+            Expanded(child: VideoPlayer(_controller)),
+            Slider(
+              min: 0,
+              max: _controller.value.duration.inMilliseconds.toDouble(),
+              value: _controller.value.position.inMilliseconds.toDouble(),
+              onChanged: (value) {
+                _controller.seekTo(Duration(milliseconds: value.toInt()));
+              },
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 16, bottom: 16),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.white.withOpacity(0.5),
-                  ),
-                  child: _controller.value.isPlaying
-                      ? IconButton(
-                          onPressed: () {
-                            _controller.pause();
-                          },
-                          icon: const Icon(Icons.pause))
-                      : IconButton(
-                          onPressed: () {
-                            _controller.play();
-                          },
-                          icon: const Icon(Icons.play_arrow)),
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(_controller.value.position.inSeconds.toString()),
+                  Text(_controller.value.duration.inSeconds.toString())
+                ],
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      _controller.seekTo(Duration(
+                          milliseconds:
+                              _controller.value.position.inMilliseconds -
+                                  1000));
+                    },
+                    icon: const Icon(Icons.replay_10)),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, bottom: 16),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                      child: _controller.value.isPlaying
+                          ? IconButton(
+                              onPressed: () {
+                                _controller.pause();
+                              },
+                              icon: const Icon(Icons.pause))
+                          : IconButton(
+                              onPressed: () {
+                                _controller.play();
+                              },
+                              icon: const Icon(Icons.play_arrow)),
+                    ),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {
+                      _controller.seekTo(Duration(
+                          milliseconds:
+                              _controller.value.position.inMilliseconds +
+                                  1000));
+                    },
+                    icon: const Icon(Icons.forward_10)),
+              ],
             ),
           ],
         ),
