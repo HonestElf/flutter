@@ -39,14 +39,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pageController = PageController(initialPage: _currentPageIndex);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _pageController.dispose();
     super.dispose();
   }
@@ -56,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        children: [CameraWidget(), GalleryWidget()],
+        children: const [CameraWidget(), GalleryWidget()],
         onPageChanged: (index) {
           setState(() {
             _currentPageIndex = index;
@@ -69,7 +67,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             setState(() {
               _currentPageIndex = currentIndex;
               _pageController.animateToPage(currentIndex,
-                  duration: Duration(milliseconds: 300), curve: Curves.linear);
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.linear);
             });
           },
           items: [

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:camera/camera.dart';
-
 class GalleryWidget extends StatefulWidget {
   const GalleryWidget({super.key});
 
@@ -13,7 +11,7 @@ class _GalleryWidgetState extends State<GalleryWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
+      child: const Center(
         child: Text('camera'),
       ),
     );
