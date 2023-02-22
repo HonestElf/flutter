@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_camera_maps_playback_flutter/src/camera_app/camera_widget.dart';
 import 'package:webview_camera_maps_playback_flutter/src/camera_app/gallery_widget.dart';
@@ -36,6 +37,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late PageController _pageController;
   int _currentPageIndex = 0;
+  List<XFile> photos = [];
 
   @override
   void initState() {
@@ -49,34 +51,45 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  void _addPhotoToGallery(XFile photo) {
+    photos.add(photo);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        controller: _pageController,
-        children: const [CameraWidget(), GalleryWidget()],
-        onPageChanged: (index) {
-          setState(() {
-            _currentPageIndex = index;
-          });
-        },
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentPageIndex,
-          onTap: (currentIndex) {
+    return SafeArea(
+      child: Scaffold(
+        body: PageView(
+          controller: _pageController,
+          children: [
+            CameraWidget(addPhotoToGallery: _addPhotoToGallery),
+            GalleryWidget(
+              photos: photos,
+            )
+          ],
+          onPageChanged: (index) {
             setState(() {
-              _currentPageIndex = currentIndex;
-              _pageController.animateToPage(currentIndex,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.linear);
+              _currentPageIndex = index;
             });
           },
-          items: [
-            ...bottomNavItems
-                .map((item) => BottomNavigationBarItem(
-                    icon: Icon(item.itemIcon), label: item.label))
-                .toList()
-          ]),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _currentPageIndex,
+            onTap: (currentIndex) {
+              setState(() {
+                _currentPageIndex = currentIndex;
+                _pageController.animateToPage(currentIndex,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.linear);
+              });
+            },
+            items: [
+              ...bottomNavItems
+                  .map((item) => BottomNavigationBarItem(
+                      icon: Icon(item.itemIcon), label: item.label))
+                  .toList()
+            ]),
+      ),
     );
   }
 }

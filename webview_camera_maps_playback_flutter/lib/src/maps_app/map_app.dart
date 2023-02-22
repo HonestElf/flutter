@@ -45,9 +45,10 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late YandexMapController _mapController;
-  static final Point _homePoint =
+  static const Point _homePoint =
       Point(latitude: 55.7522200, longitude: 37.6155600);
-  final animation = MapAnimation(type: MapAnimationType.smooth, duration: 2.0);
+  final animation =
+      const MapAnimation(type: MapAnimationType.smooth, duration: 2.0);
 
   double _currentZoom = 1;
 
@@ -78,7 +79,6 @@ class _MapScreenState extends State<MapScreen> {
                     children: [
                       IconButton(
                         onPressed: () async {
-                          print('UP');
                           final currentPosition =
                               await _mapController.getCameraPosition();
 
