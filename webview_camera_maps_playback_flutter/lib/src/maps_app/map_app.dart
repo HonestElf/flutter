@@ -44,76 +44,12 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  // final Completer mapControllerCompleter = Completer<YandexMapController>();
-
   late YandexMapController _mapController;
   static final Point _homePoint =
       Point(latitude: 55.7522200, longitude: 37.6155600);
   final animation = MapAnimation(type: MapAnimationType.smooth, duration: 2.0);
 
-  // late double
-
-  // Future<void> _moveToLocation(
-  //   double coordDiff,
-  // ) async {
-  //   (await mapControllerCompleter.future).moveCamera(
-  //     animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
-  //     CameraUpdate.newCameraPosition(
-  //       CameraPosition(
-  //         target: Point(
-  //           latitude: mapControllerCompleter.future.,
-  //           longitude: appLatLong.long,
-  //         ),
-  //         zoom: 12,
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Future<void> _moveToCurrentLocation(
-  //   AppLatLong appLatLong,
-  // ) async {
-  //   (await mapControllerCompleter.future).moveCamera(
-  //     animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
-  //     CameraUpdate.newCameraPosition(
-  //       CameraPosition(
-  //         target: Point(
-  //           latitude: appLatLong.lat,
-  //           longitude: appLatLong.long,
-  //         ),
-  //         zoom: 12,
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Future<void> _fetchCurrentLocation() async {
-  //   AppLatLong location;
-
-  //   const defLocation = MoscowLocation();
-
-  //   try {
-  //     // location = await LocationService().getCurrentLocation();
-  //     location = defLocation;
-  //   } catch (_) {
-  //     location = defLocation;
-  //   }
-
-  //   _moveToCurrentLocation(location);
-  // }
-
-  // Future<void> _initPermission() async {
-  //   if (!await LocationService().requestPermission()) {
-  //     await LocationService().requestPermission();
-  //   }
-  //   await _fetchCurrentLocation();
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _initPermission().ignore();
-  // }
+  double _currentZoom = 1;
 
   @override
   void dispose() {
@@ -153,7 +89,8 @@ class _MapScreenState extends State<MapScreen> {
                                           currentPosition.target.latitude +
                                               0.01,
                                       longitude:
-                                          currentPosition.target.longitude))));
+                                          currentPosition.target.longitude),
+                                  zoom: _currentZoom)));
                         },
                         icon: const Icon(
                           Icons.arrow_circle_up_outlined,
@@ -165,17 +102,17 @@ class _MapScreenState extends State<MapScreen> {
                         children: [
                           IconButton(
                             onPressed: () async {
-                              print('LEFT');
                               final currentPosition =
                                   await _mapController.getCameraPosition();
                               _mapController.moveCamera(
                                   CameraUpdate.newCameraPosition(CameraPosition(
-                                      target: Point(
-                                          latitude:
-                                              currentPosition.target.latitude -
-                                                  0.01,
-                                          longitude: currentPosition
-                                              .target.longitude))));
+                                target: Point(
+                                    latitude: currentPosition.target.latitude,
+                                    longitude:
+                                        currentPosition.target.longitude -
+                                            0.01),
+                                zoom: _currentZoom,
+                              )));
                             },
                             icon: const Icon(
                               Icons.arrow_circle_left_outlined,
@@ -183,11 +120,11 @@ class _MapScreenState extends State<MapScreen> {
                           ),
                           IconButton(
                             onPressed: () async {
-                              print('HONE');
-
                               await _mapController.moveCamera(
-                                  CameraUpdate.newCameraPosition(
-                                      CameraPosition(target: _homePoint)));
+                                  CameraUpdate.newCameraPosition(CameraPosition(
+                                target: _homePoint,
+                                zoom: _currentZoom,
+                              )));
                             },
                             icon: const Icon(
                               Icons.home,
@@ -195,8 +132,6 @@ class _MapScreenState extends State<MapScreen> {
                           ),
                           IconButton(
                             onPressed: () async {
-                              print('RIGHT');
-
                               final currentPosition =
                                   await _mapController.getCameraPosition();
 
@@ -207,7 +142,8 @@ class _MapScreenState extends State<MapScreen> {
                                               currentPosition.target.latitude,
                                           longitude:
                                               currentPosition.target.longitude +
-                                                  0.01))));
+                                                  0.01),
+                                      zoom: _currentZoom)));
                             },
                             icon: const Icon(
                               Icons.arrow_circle_right_outlined,
@@ -217,18 +153,18 @@ class _MapScreenState extends State<MapScreen> {
                       ),
                       IconButton(
                         onPressed: () async {
-                          print('DOWN');
-
                           final currentPosition =
                               await _mapController.getCameraPosition();
 
                           _mapController.moveCamera(
                               CameraUpdate.newCameraPosition(CameraPosition(
                                   target: Point(
-                                      latitude: currentPosition.target.latitude,
+                                      latitude:
+                                          currentPosition.target.latitude -
+                                              0.01,
                                       longitude:
-                                          currentPosition.target.longitude -
-                                              0.01))));
+                                          currentPosition.target.longitude),
+                                  zoom: _currentZoom)));
                         },
                         icon: const Icon(
                           Icons.arrow_circle_down_outlined,
@@ -240,52 +176,18 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
             Align(
-              // alignment: Alignment.bottomCenter,
-              alignment: Alignment.bottomLeft,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.white.withOpacity(0.8)),
-                      child: IconButton(
-                        onPressed: () async {
-                          await _mapController
-                              .moveCamera(CameraUpdate.zoomIn());
-                        },
-                        icon: const Icon(
-                          Icons.add,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.white.withOpacity(0.7)),
-                      child: IconButton(
-                        onPressed: () async {
-                          await _mapController
-                              .moveCamera(CameraUpdate.zoomOut());
-                        },
-                        icon: const Icon(
-                          Icons.remove,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+              alignment: Alignment.bottomCenter,
+              child: Slider(
+                min: 1,
+                max: 20,
+                value: _currentZoom,
+                onChanged: (value) {
+                  _mapController.moveCamera(CameraUpdate.zoomTo(value));
+                  setState(() {
+                    _currentZoom = value;
+                  });
+                },
               ),
-              // child: Slider(
-              //   value: _mapController.getCameraPosition().,
-              //   onChanged: (value) {
-              //     _mapController.moveCamera(CameraUpdate.zoomTo(value));
-              //   },
             ),
           ],
         ),
