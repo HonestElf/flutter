@@ -19,6 +19,7 @@ class _CameraWidgetState extends State<CameraWidget>
   CameraController? camController;
 
   XFile? lastImage;
+  bool _isTakingPicture = false;
 
   @override
   void initState() {
@@ -110,12 +111,20 @@ class _CameraWidgetState extends State<CameraWidget>
               alignment: Alignment.bottomCenter,
               child: IconButton(
                 iconSize: 48,
-                onPressed: () async {
-                  lastImage = await camController?.takePicture();
-                  widget.addPhotoToGallery(lastImage);
-                  setState(() {});
-                },
-                icon: const Icon(Icons.camera),
+                onPressed: !_isTakingPicture
+                    ? () async {
+                        setState(() {
+                          _isTakingPicture = true;
+                        });
+                        lastImage = await camController?.takePicture();
+                        widget.addPhotoToGallery(lastImage);
+                        setState(() {
+                          _isTakingPicture = false;
+                        });
+                      }
+                    : null,
+                icon:
+                    Icon(_isTakingPicture ? Icons.cameraswitch : Icons.camera),
               ),
             ),
           ],

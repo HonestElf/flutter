@@ -30,6 +30,18 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final InAppLocalhostServer _localhostServer = InAppLocalhostServer();
 
   final TextEditingController _urlController = TextEditingController();
+// https://github.com/
+  bool _canGoBack = false;
+  bool _canGoForward = false;
+
+  void checkState() async {
+    final canGoBack = await _webViewController.canGoBack();
+    final canGoForward = await _webViewController.canGoForward();
+    setState(() {
+      _canGoBack = canGoBack;
+      _canGoForward = canGoForward;
+    });
+  }
 
   bool _isLoading = false;
 
@@ -68,31 +80,19 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
             padding: EdgeInsets.symmetric(horizontal: 4),
             child: Row(
               children: [
-                // FutureBuilder(
-                // future: _webViewController.canGoBack(), // async work
-                //   builder: (context, snapshot) {
-                //     if (snapshot.hasData) {
-                //       return IconButton(
-                //           onPressed: snapshot.data!
-                //               ? () {
-                // _webViewController.goBack();
-                //                 }
-                //               : null,
-                //           icon: const Icon(Icons.arrow_back));
-                //     } else {
-                //       return SizedBox();
-                //     }
-                //   },
-                // ),
                 IconButton(
-                    onPressed: () {
-                      _webViewController.goBack();
-                    },
+                    onPressed: _canGoBack
+                        ? () {
+                            _webViewController.goBack();
+                          }
+                        : null,
                     icon: const Icon(Icons.arrow_back)),
                 IconButton(
-                    onPressed: () {
-                      _webViewController.goForward();
-                    },
+                    onPressed: _canGoForward
+                        ? () {
+                            _webViewController.goForward();
+                          }
+                        : null,
                     icon: const Icon(Icons.arrow_forward)),
                 IconButton(
                     onPressed: () {
@@ -148,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   });
                 },
                 onLoadStop: (controller, url) {
+                  checkState();
                   setState(() {
                     _isLoading = false;
                   });
