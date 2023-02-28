@@ -10,21 +10,26 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 import kotlin.random.Random
-import kotlinx.coroutines.*
+// import kotlinx.coroutines.*
 
 class MainActivity: FlutterActivity() {
 
+    private val androidViewId= "INTEGRATION_ANDROID"
     private val eventsChannel = "CALL_EVENTS"
     private val methodChannel = "CALL_METHOD"
     private val intentName = "EVENTS"
     private val intentMessageId = "CALL"
-    
+
     private var receiver: BroadcastReceiver? = null
-    lateinit var job: Job
+        // lateinit var job: Job
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-    
+        flutterEngine
+            .platformViewsController
+            .registry
+            .registerViewFactory(androidViewId, AndroidButtonViewFactory(flutterEngine.dartExecutor.binaryMessenger))
+
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, methodChannel).setMethodCallHandler {
                 call, result ->
             if (call.method == intentMessageId) {
@@ -40,17 +45,17 @@ class MainActivity: FlutterActivity() {
                     val intent = Intent(intentName)
                     receiver = createReceiver(events)
                     applicationContext?.registerReceiver(receiver, IntentFilter(intentName))
-                    job = CoroutineScope(Dispatchers.Default).launch{
-                        for (i in 1..20){
-                            intent.putExtra(intentMessageId, Random.nextInt(0, 500))
-                            applicationContext?.sendBroadcast(intent)
-                            delay(1000)
-                        }
-                    }
+                                        // job = CoroutineScope(Dispatchers.Default).launch{
+                    //     for (i in 1..20){
+                    //         intent.putExtra(intentMessageId, Random.nextInt(0, 500))
+                    //         applicationContext?.sendBroadcast(intent)
+                    //         delay(1000)
+                    //     }
+                    // }
                 }
 
                 override fun onCancel(args: Any?) {
-                    job.cancel()
+                          // job.cancel()
                     receiver = null
                 }
             }

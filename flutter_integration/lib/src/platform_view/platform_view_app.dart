@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_integration/src/event_channel/service.dart';
+import 'package:flutter_integration/src/platform/platform_view_mobile.dart';
+import 'package:flutter_integration/src/platform_view/service.dart';
 
 class PlatformViewApp extends StatelessWidget {
   const PlatformViewApp({super.key});
@@ -27,6 +30,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  StreamSubscription? _subscription;
+  final service = PlatformService();
+
+  void _getValue() async {
+    _counter = await service.callMethodChannel();
+
+    setState(() {
+      _counter = _counter;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +52,31 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Value from platform: ',
+              'Ui component from platform:',
             ),
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: PlatformWidget(),
+              ),
+            ),
+            Text('Stream from platform:'),
+            StreamBuilder<int>(
+              stream: service.getStream(),
+              builder: (context, snapshot) =>
+                  Text('${snapshot.hasData ? snapshot.data : "No data"}'),
+            ),
+            Text('Value from platform:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _getValue,
+        child: const Icon(Icons.get_app),
       ),
     );
   }
