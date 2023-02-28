@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_integration/src/platform/platform_view_mobile.dart';
+import 'package:flutter_integration/src/platform_view/platform/platform_view_mobile.dart';
 import 'package:flutter_integration/src/platform_view/service.dart';
 
 class PlatformViewApp extends StatelessWidget {

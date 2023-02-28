@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 class PlatformWidget extends StatelessWidget {
   const PlatformWidget({super.key});
 
-  void _onPlatformWebViewCreated(int id) {
-    print('PlatformView with id: $id created');
-  }
+  // void _onPlatformWebViewCreated(int id) {
+  //   print('PlatformView with id: $id created');
+  // }
 
   @override
   Widget build(BuildContext context) {
