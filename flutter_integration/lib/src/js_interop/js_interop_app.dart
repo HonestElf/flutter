@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_integration/src/platform_view/platform/platform_view_mobile.dart';
-import 'package:flutter_integration/src/platform_view/service.dart';
+import 'package:flutter_integration/src/js_interop/platform/service.dart';
+import 'package:flutter_integration/src/js_interop/platform/dummy/platform_view_dummy.dart'
+    if (dart.library.html) 'package:flutter_integration/src/js_interop/platform/web/platform_view_web.dart'
+    if (dart.library.io) 'package:flutter_integration/src/js_interop/platform/mobile/platform_view_mobile.dart';
 
-class PlatformViewApp extends StatelessWidget {
-  const PlatformViewApp({super.key});
+class JSinteropApp extends StatelessWidget {
+  const JSinteropApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +33,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   // StreamSubscription? _subscription;
-  final service = PlatformService();
+  final service = getService();
 
   void _getValue() async {
-    _counter = await service.callMethodChannel();
+    _counter = await service.getValue();
 
     setState(() {
       _counter = _counter;
@@ -56,9 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: PlatformWidget(),
-              ),
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: PlatformWidget()),
             ),
             const Text('Stream from platform:'),
             StreamBuilder<int>(
@@ -74,9 +75,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _getValue,
-        child: const Icon(Icons.get_app),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: _getValue,
+            child: const Icon(Icons.get_app),
+          ),
+        ],
       ),
     );
   }
