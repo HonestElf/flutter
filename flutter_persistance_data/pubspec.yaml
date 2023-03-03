@@ -28,6 +28,7 @@ dependencies:
   floor_generator: ^1.4.1
   drift: ^2.5.0
   sqlite3_flutter_libs: ^0.5.13
+  flutter_secure_storage: ^8.0.0
 
 dev_dependencies:
   flutter_test:
