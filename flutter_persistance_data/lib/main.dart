@@ -10,11 +10,11 @@ import 'package:flutter_persistance_data/src/sqlApp/sql_app.dart';
 void main() {
   // runApp(const SharedPrefsApp());
   // runApp(const HiveApp());
-  // runApp(const LocalStorageApp());
+  runApp(const LocalStorageApp());
 
   // WidgetsFlutterBinding.ensureInitialized();
   // runApp(const SqlApp());
   // runApp(const FloorApp());
   // runApp(const DriftApp());
-  runApp(const SecureStorageApp());
+  // runApp(const SecureStorageApp());
 }
