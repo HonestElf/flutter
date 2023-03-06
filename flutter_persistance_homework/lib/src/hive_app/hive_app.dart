@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_persistance_homework/src/hive_app/screens/category_screen.dart';
+import 'package:flutter_persistance_homework/src/hive_app/screens/details_screen.dart';
+import 'package:flutter_persistance_homework/src/hive_app/screens/home_screen.dart';
+import 'package:flutter_persistance_homework/src/hive_app/screens/not_found_screen.dart';
 
 class HiveApp extends StatelessWidget {
   const HiveApp({super.key});
@@ -10,54 +14,44 @@ class HiveApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+      home: const HomeSreen(),
+      initialRoute: '/',
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) {
+            return const NotFoundScreen();
+          },
+        );
+      },
+      onGenerateRoute: (settings) {
+        final args = settings.arguments as Map<String, dynamic>;
+        switch (settings.name) {
+          case CategoryScreen.routeName:
+            return MaterialPageRoute(
+              builder: (context) {
+                return CategoryScreen(
+                  currentCategory: args['category'],
+                );
+              },
+            );
+          case DetailsScreen.routeName:
+            return MaterialPageRoute(
+              builder: (context) {
+                return DetailsScreen(
+                  boxName: args['boxName'],
+                  itemName: args['itemName'],
+                );
+              },
+            );
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+          default:
+            return MaterialPageRoute(
+              builder: (context) {
+                return const NotFoundScreen();
+              },
+            );
+        }
+      },
     );
   }
 }
