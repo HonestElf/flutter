@@ -29,8 +29,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late SharedPreferences prefs;
-
   Box<Person>? _personBox;
 
   void _initializeHive() async {
