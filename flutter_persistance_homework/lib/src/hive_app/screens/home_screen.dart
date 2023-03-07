@@ -73,7 +73,6 @@ class _HomeSreenState extends State<HomeSreen> with TickerProviderStateMixin {
   }
 
   void _openCategory(String category) {
-    print('CATEGORY: $category');
     Navigator.of(context)
         .pushNamed(CategoryScreen.routeName, arguments: {'category': category});
   }

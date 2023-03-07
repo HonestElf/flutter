@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_persistance_homework/src/storage_app/get_image.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -61,13 +60,45 @@ class _MyHomePageState extends State<MyHomePage> {
   void _saveImage() async {
     //https://picsum.photos/200
 
-    file = await downloadFile(_urlController.text, _textEditingController.text);
-
-    if (await file!.exists()) {
-      _imageGallery.value = [..._imageGallery.value, file!];
-      _urlController.clear();
-      _textEditingController.clear();
+    if (_urlController.text.isEmpty || _textEditingController.text.isEmpty) {
+      print('Target url or file name missing');
+      return;
     }
+
+    try {
+      final bytes = await downloadFiles(_urlController.text) as Uint8List;
+
+      String prunedName =
+          '${_textEditingController.text.replaceAll(' ', '')}.jpg';
+
+      Directory targetDir = Directory('${appDocDir.path}/downloads');
+
+      await checkIfDirExist(targetDir);
+
+      File file = File('${targetDir.path}/$prunedName');
+
+      await file.writeAsBytes(bytes);
+
+      if (await file.exists()) {
+        _imageGallery.value = [..._imageGallery.value, file];
+        _urlController.clear();
+        _textEditingController.clear();
+      }
+    } catch (error) {
+      print(error.toString());
+    }
+  }
+
+  Future<void> checkIfDirExist(Directory targetDir) async {
+    if (!(await targetDir.exists())) {
+      await targetDir.create();
+    }
+  }
+
+  @override
+  void dispose() {
+    _imageGallery.dispose();
+    super.dispose();
   }
 
   @override
@@ -102,13 +133,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         return Container(
                           width: 200,
                           height: 150,
-                          padding: const EdgeInsets.all(16),
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                          child: Image.file(
-                            File(images[index].path),
-                            fit: BoxFit.cover,
+                          padding: const EdgeInsets.all(8),
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16)),
+                            child: Image.file(
+                              File(images[index].path),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         );
                       },

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_persistance_homework/src/hive_app/hive_item/hive_item.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class DetailsScreen extends StatefulWidget {
   static const routeName = 'detailsScreen';
   const DetailsScreen(
       {super.key, required this.itemName, required this.boxName});
-  // final CategoryItem item;
 
   final String? itemName;
   final String? boxName;
