@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `firstName` TEXT NOT NULL, `secondName` TEXT NOT NULL, `age` INTEGER NOT NULL, `phone` TEXT NOT NULL, `cardNumber` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER NOT NULL, `firstName` TEXT NOT NULL, `secondName` TEXT NOT NULL, `age` INTEGER NOT NULL, `phone` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -112,8 +112,7 @@ class _$UserDao extends UserDao {
                   'firstName': item.firstName,
                   'secondName': item.secondName,
                   'age': item.age,
-                  'phone': item.phone,
-                  'cardNumber': item.cardNumber
+                  'phone': item.phone
                 },
             changeListener),
         _userUpdateAdapter = UpdateAdapter(
@@ -125,8 +124,7 @@ class _$UserDao extends UserDao {
                   'firstName': item.firstName,
                   'secondName': item.secondName,
                   'age': item.age,
-                  'phone': item.phone,
-                  'cardNumber': item.cardNumber
+                  'phone': item.phone
                 },
             changeListener),
         _userDeletionAdapter = DeletionAdapter(
@@ -138,8 +136,7 @@ class _$UserDao extends UserDao {
                   'firstName': item.firstName,
                   'secondName': item.secondName,
                   'age': item.age,
-                  'phone': item.phone,
-                  'cardNumber': item.cardNumber
+                  'phone': item.phone
                 },
             changeListener);
 
@@ -159,24 +156,22 @@ class _$UserDao extends UserDao {
   Future<List<User>> getAllUsers() async {
     return _queryAdapter.queryList('SELECT * from User',
         mapper: (Map<String, Object?> row) => User(
-            id: row['id'] as int?,
+            id: row['id'] as int,
             firstName: row['firstName'] as String,
             secondName: row['secondName'] as String,
             age: row['age'] as int,
-            phone: row['phone'] as String,
-            cardNumber: row['cardNumber'] as String));
+            phone: row['phone'] as String));
   }
 
   @override
   Stream<User?> getUserById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM Person WHERE id = ?1',
         mapper: (Map<String, Object?> row) => User(
-            id: row['id'] as int?,
+            id: row['id'] as int,
             firstName: row['firstName'] as String,
             secondName: row['secondName'] as String,
             age: row['age'] as int,
-            phone: row['phone'] as String,
-            cardNumber: row['cardNumber'] as String),
+            phone: row['phone'] as String),
         arguments: [id],
         queryableName: 'Person',
         isView: false);

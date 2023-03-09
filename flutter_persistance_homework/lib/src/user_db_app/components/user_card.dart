@@ -5,12 +5,15 @@ class UserCard extends StatelessWidget {
   const UserCard(
       {super.key,
       required this.user,
+      required this.cardNumber,
       required this.deleteUser,
       required this.editUser});
   final User user;
 
   final Function deleteUser;
   final Function editUser;
+
+  final String cardNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +27,14 @@ class UserCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16)),
       child: ListTile(
         title: Text('${user.firstName} ${user.secondName} ${user.age}'),
-        subtitle: Text(user.phone),
+        subtitle: Text('${user.phone} $cardNumber'),
         leading: Text('${user.id}'),
         trailing: SizedBox(
           width: 100,
           child: Row(children: [
             IconButton(
                 onPressed: () {
-                  editUser(user);
+                  editUser(user, cardNumber);
                 },
                 icon: const Icon(Icons.edit)),
             IconButton(
