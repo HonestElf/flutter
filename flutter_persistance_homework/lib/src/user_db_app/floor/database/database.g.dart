@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER NOT NULL, `firstName` TEXT NOT NULL, `secondName` TEXT NOT NULL, `age` INTEGER NOT NULL, `phone` TEXT NOT NULL, `cardNumber` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `User` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `firstName` TEXT NOT NULL, `secondName` TEXT NOT NULL, `age` INTEGER NOT NULL, `phone` TEXT NOT NULL, `cardNumber` TEXT NOT NULL)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -159,24 +159,24 @@ class _$UserDao extends UserDao {
   Future<List<User>> getAllUsers() async {
     return _queryAdapter.queryList('SELECT * from User',
         mapper: (Map<String, Object?> row) => User(
-            row['id'] as int,
-            row['firstName'] as String,
-            row['secondName'] as String,
-            row['age'] as int,
-            row['phone'] as String,
-            row['cardNumber'] as String));
+            id: row['id'] as int?,
+            firstName: row['firstName'] as String,
+            secondName: row['secondName'] as String,
+            age: row['age'] as int,
+            phone: row['phone'] as String,
+            cardNumber: row['cardNumber'] as String));
   }
 
   @override
   Stream<User?> getUserById(int id) {
     return _queryAdapter.queryStream('SELECT * FROM Person WHERE id = ?1',
         mapper: (Map<String, Object?> row) => User(
-            row['id'] as int,
-            row['firstName'] as String,
-            row['secondName'] as String,
-            row['age'] as int,
-            row['phone'] as String,
-            row['cardNumber'] as String),
+            id: row['id'] as int?,
+            firstName: row['firstName'] as String,
+            secondName: row['secondName'] as String,
+            age: row['age'] as int,
+            phone: row['phone'] as String,
+            cardNumber: row['cardNumber'] as String),
         arguments: [id],
         queryableName: 'Person',
         isView: false);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_persistance_homework/src/user_db_app/components/user_card.dart';
 import 'package:flutter_persistance_homework/src/user_db_app/floor/database/database.dart';
 import 'package:flutter_persistance_homework/src/user_db_app/floor/entity/entity_user.dart';
 
@@ -27,16 +28,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // final TextEditingController _firstNameController = TextEditingController();
-  // final TextEditingController _secondNameController = TextEditingController();
-  // final TextEditingController _ageController = TextEditingController();
-  // final TextEditingController _phoneController = TextEditingController();
-  // final TextEditingController _cardNumber = TextEditingController();
-
   final GlobalKey<FormState> _userForm = GlobalKey<FormState>();
 
   AppDatabase? _database;
   List<User> _users = [];
+
+  final Map<String, dynamic> _formValues = {};
 
   @override
   void initState() {
@@ -56,11 +53,32 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {});
   }
 
-  void _addPerson() async {
-    print('PERSON ADDED with ${_userForm.currentState}');
+  void _handleUser(bool isEditing) async {
+    final User user = User(
+        firstName: _formValues['firstName'],
+        secondName: _formValues['secondName'],
+        age: int.parse(_formValues['age']),
+        phone: _formValues['phone'],
+        cardNumber: _formValues['cardNumber']);
+
+    if (isEditing) {
+      await _database!.userDao.updateUser(user);
+    } else {
+      await _database!.userDao.addUser(user);
+    }
+
+    _users = await _database!.userDao.getAllUsers();
+    setState(() {});
   }
 
-  void _openAddMenu() {
+  void _deleteUser(User user) async {
+    await _database!.userDao.deleteUser(user);
+
+    _users = await _database!.userDao.getAllUsers();
+    setState(() {});
+  }
+
+  void _openForm(User? user) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -70,7 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
               bottom: MediaQuery.of(context).viewInsets.bottom, top: 40),
           child: Container(
             color: Colors.blueGrey[100],
-            // height: 160,
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -79,67 +96,87 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Column(
                     children: [
                       TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter some text';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(hintText: 'Ivan')),
+                        initialValue: user != null ? user.firstName : '',
+                        keyboardType: TextInputType.name,
+                        decoration: const InputDecoration(hintText: 'Ivan'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter some text';
+                          }
+                          _formValues.putIfAbsent('firstName', () => value);
+                          return null;
+                        },
+                      ),
                       TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter some text';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(
-                            hintText: 'Ivanov',
-                          )),
+                        initialValue: user != null ? user.secondName : '',
+                        keyboardType: TextInputType.name,
+                        decoration: const InputDecoration(
+                          hintText: 'Ivanov',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter some text';
+                          }
+                          _formValues.putIfAbsent('secondName', () => value);
+                          return null;
+                        },
+                      ),
                       TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter number';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(hintText: '42')),
+                        initialValue: user != null ? user.age.toString() : '',
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(hintText: '42'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter number';
+                          }
+                          _formValues.putIfAbsent('age', () => value);
+                          return null;
+                        },
+                      ),
                       TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter number';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.phone,
-                          decoration: const InputDecoration(
-                            hintText: '88005553535',
-                          )),
+                        initialValue: user != null ? user.phone : '',
+                        keyboardType: TextInputType.phone,
+                        decoration: const InputDecoration(
+                          hintText: '88005553535',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter number';
+                          }
+                          _formValues.putIfAbsent('phone', () => value);
+                          return null;
+                        },
+                      ),
                       TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Enter number';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                            hintText: '1234 5678 9123 4567',
-                          )),
+                        initialValue: user != null ? user.cardNumber : '',
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          hintText: '1234 5678 9123 4567',
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter number';
+                          }
+                          _formValues.putIfAbsent('cardNumber', () => value);
+                          return null;
+                        },
+                      ),
                       ElevatedButton(
                         onPressed: () {
                           if (_userForm.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Adding person')),
+                              SnackBar(
+                                  content: Text(user != null
+                                      ? 'Editing user'
+                                      : 'Adding user}')),
                             );
-                            _addPerson();
+
+                            _handleUser(user != null);
+
                             Navigator.pop(context);
                           }
                         },
-                        child: const Text('Добавить'),
+                        child: Text(user != null ? 'Изменить' : 'Добавить'),
                       ),
                     ],
                   ),
@@ -162,18 +199,25 @@ class _MyHomePageState extends State<MyHomePage> {
           ? const Center(
               child: Text('No users yet'),
             )
-          : ListView.builder(
-              itemCount: _users.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.all(16),
-                  alignment: Alignment.centerLeft,
-                  child: Text('${_users[index].id}-${_users[index].firstName}'),
-                );
-              },
+          : Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemCount: _users.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: UserCard(
+                        user: _users[index],
+                        deleteUser: _deleteUser,
+                        editUser: _openForm),
+                  );
+                },
+              ),
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _openAddMenu,
+        onPressed: () {
+          _openForm(null);
+        },
         child: const Icon(Icons.add),
       ),
     );
