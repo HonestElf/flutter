@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_architecture/src/domain/model/day.dart';
+import 'package:flutter_clean_architecture/src/domain/state/home/home_state.dart';
+import 'package:flutter_clean_architecture/src/internal/dependencies/home_module.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -14,9 +16,21 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _longController = TextEditingController();
 
-  Day? _day;
+  late HomeState _homeState;
 
-  void _getDay() {}
+  @override
+  void initState() {
+    super.initState();
+
+    _homeState = HomeModule.homeState();
+  }
+
+  void _getDay() {
+    final lat = double.tryParse(_latController.text) ?? 0;
+    final long = double.tryParse(_longController.text) ?? 0;
+
+    _homeState.getDay(latitude: lat, longitude: long);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +75,32 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(
                 height: 20,
               ),
-              if (_day != null)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text('Восход: ${_day!.sunrise.toLocal()}'),
-                    Text('Закат: ${_day!.sunset.toLocal()}'),
-                    Text('Полдень: ${_day!.solarNoon.toLocal()}'),
-                    Text(
-                        'Продолжительность: ${Duration(seconds: _day!.dayLength)}'),
-                  ],
-                ),
+              Observer(
+                builder: (_) {
+                  if (_homeState.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (_homeState.day == null) {
+                    return const Center(
+                      child: Text('No data'),
+                    );
+                  }
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text('Восход: ${_homeState.day!.sunrise.toLocal()}'),
+                      Text('Закат: ${_homeState.day!.sunset.toLocal()}'),
+                      Text('Полдень: ${_homeState.day!.solarNoon.toLocal()}'),
+                      Text(
+                          'Продолжительность: ${Duration(seconds: _homeState.day!.dayLength)}'),
+                    ],
+                  );
+                },
+              )
             ],
           ),
         ));

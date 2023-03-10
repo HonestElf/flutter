@@ -7,6 +7,6 @@ class ApiDay {
   ApiDay.fromApi(Map<String, dynamic> map)
       : sunrise = map['results']['sunrise'],
         sunset = map['results']['sunset'],
-        solarNoon = map['results']['solarNoon'],
-        dayLength = map['results']['dayLength'];
+        solarNoon = map['results']['solar_noon'],
+        dayLength = map['results']['day_length'];
 }
